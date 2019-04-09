@@ -6,19 +6,38 @@ using System.Threading.Tasks;
 
 namespace CardClasses
 {
-    public class BJHand
+    public class BJHand : Hand
     {
-        public BJHand() { }
+        public BJHand() : base() { }
 
-        public BJHand(Deck d, int numCards) 
+        public BJHand(Deck d, int numCards) : base(d, numCards)
         { 
         }
 
-        public int Score
+		// for score...
+		// foreach card in hand
+		//   if card isAFaceCard
+		//		score += 10
+		//   else
+		//      score += value of card
+
+		// if HasAce and score <= 11
+		//    score += 10
+		public int Score
         {
             get 
             {
-                return 0;
+				int score = 0;
+				foreach (Card card in cards)
+					if (card.IsFaceCard())
+						score += 10;
+					else
+						score += card.Value;
+				if (HasAce && score <= 11)
+					score += 10;
+
+				return score;
+
             }
         }
 
@@ -26,7 +45,7 @@ namespace CardClasses
         {
             get 
             {
-                return false;
+				return HasCard(1);
             }
         }
 
@@ -34,7 +53,7 @@ namespace CardClasses
         {
             get 
             {
-                return false;
+                return Score > 21;
             }
         }
     }

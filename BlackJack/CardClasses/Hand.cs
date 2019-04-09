@@ -8,38 +8,52 @@ namespace CardClasses
 {
     public class Hand
     {
+		protected List<Card> cards = new List<Card>();
 
         public Hand() { }
         public Hand(Deck d, int numCards)
         {
+			for (int i = 1; i <= numCards; i++)
+				cards.Add(d.Deal());
         }
 
         public int NumCards
         {
             get
             {
-                return 0;
+                return cards.Count();
             }
         }
 
         public void AddCard(Card c)
         {
+			cards.Add(c);
         }
 
         public Card GetCard(int index)
         {
+			Card card = new Card();
+			for (index = 0; index < cards.Count; index++)
+			{
+				// return;
+			}
             return null;
         }
 
         public int IndexOf(Card c)
         {
-            return -1;
+            return cards.IndexOf(c);
         }
 
         public int IndexOf(int value)
         {
-            return -1;
-        }
+			for (int i = 0; i < cards.Count; i++)
+			{
+				if (cards[i].Value == value)
+					return i;
+			}
+			return -1;
+		}
 
         public int IndexOf(int value, int suit)
         {
@@ -48,12 +62,15 @@ namespace CardClasses
 
         public bool HasCard(Card c)
         {
-            return false;
+			if (cards.Contains(c))
+				return true;
+			else
+				return false;
         }
 
         public bool HasCard(int value)
         {
-            return false;
+            return IndexOf(value) != -1;
         }
 
         public bool HasCard(int value, int suit)
