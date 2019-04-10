@@ -15,7 +15,8 @@ namespace CarUnitTests
 		[Test]
 		public void TestConstructor()
 		{
-
+			Deck testDeck = new Deck();
+			Hand testHand1 = new Hand(testDeck, 6);
 		}
 
 		[Test]

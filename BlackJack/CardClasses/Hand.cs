@@ -35,7 +35,7 @@ namespace CardClasses
 			Card card = new Card();
 			for (index = 0; index < cards.Count; index++)
 			{
-				// return;
+				return cards[index];
 			}
             return null;
         }
@@ -57,6 +57,12 @@ namespace CardClasses
 
         public int IndexOf(int value, int suit)
         {
+			value = IndexOf(value);
+			for (int i = 0; i < cards.Count; i++)
+			{
+				if (cards[i].Suit == suit)
+					return i;
+			}
             return -1;
         }
 
