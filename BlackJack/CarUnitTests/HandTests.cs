@@ -15,14 +15,22 @@ namespace CarUnitTests
 		[Test]
 		public void TestConstructor()
 		{
-			Deck testDeck = new Deck();
-			Hand testHand1 = new Hand(testDeck, 6);
+
 		}
 
 		[Test]
 		public void TestAddCard()
 		{
 
+		}
+
+		[Test]
+		public void TestNumberOfCards()
+		{
+			Deck testDeck = new Deck();
+			Hand testHand = new Hand(testDeck, 5);
+
+			Assert.AreEqual(5, testHand.NumCards);
 		}
     }
 }

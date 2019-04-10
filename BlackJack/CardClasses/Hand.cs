@@ -32,12 +32,7 @@ namespace CardClasses
 
         public Card GetCard(int index)
         {
-			Card card = new Card();
-			for (index = 0; index < cards.Count; index++)
-			{
-				return cards[index];
-			}
-            return null;
+			return cards[index];
         }
 
         public int IndexOf(Card c)
@@ -81,18 +76,22 @@ namespace CardClasses
 
         public bool HasCard(int value, int suit)
         {
-            return false;
+            return IndexOf(value, suit) != -1;
         }
 
         public Card Discard(int index)
         {
-            return null;
+			Card dCard = cards[index];
+			cards.Remove(dCard);
+			return dCard;
         }
 
         public override string ToString()
         {
-            string output = "";
-            return output;
-        }
+			string output = "";
+			foreach (Card c in cards)
+				output += (c.ToString() + "\n");
+			return output;
+		}
     }
 }
