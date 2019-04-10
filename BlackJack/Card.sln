@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardClasses", "CardClasses\CardClasses.csproj", "{3C4775F7-BBA0-45A2-9363-8D16EBC6E5F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarUnitTests", "CarUnitTests\CarUnitTests.csproj", "{F473C842-8827-4A12-AE59-B56835074C53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardUnitTests", "CarUnitTests\CardUnitTests.csproj", "{F473C842-8827-4A12-AE59-B56835074C53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

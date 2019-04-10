@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using CardClasses;
 
-namespace CarUnitTests
+namespace CardUnitTests
 {
 	[TestFixture]
     public class HandTests

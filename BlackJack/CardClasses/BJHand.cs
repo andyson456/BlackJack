@@ -8,11 +8,16 @@ namespace CardClasses
 {
     public class BJHand : Hand
     {
-        public BJHand() : base() { }
+
+		protected new List<Card> cards = new List<Card>();
+
+		public BJHand() : base() { }
 
         public BJHand(Deck d, int numCards) : base(d, numCards)
-        { 
-        }
+        {
+			for (int i = 1; i <= numCards; i++)
+				cards.Add(d.Deal());
+		}
 
 		// for score...
 		// foreach card in hand
