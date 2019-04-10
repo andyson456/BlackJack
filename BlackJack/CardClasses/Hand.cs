@@ -81,9 +81,16 @@ namespace CardClasses
 
         public Card Discard(int index)
         {
-			Card dCard = cards[index];
-			cards.Remove(dCard);
-			return dCard;
+			if (cards.Count == 0)
+			{
+				return null;
+			}
+			else
+			{
+				Card dCard = cards[index];
+				cards.Remove(dCard);
+				return dCard;
+			}
         }
 
         public override string ToString()
