@@ -10,9 +10,18 @@ namespace CardClasses
     {
         private List<Card> cards = new List<Card>();
 
+		public delegate void EmptyHandler(Card c);
+		public event EmptyHandler AlmostEmpty;
+
+		public void HandleEmpty(Card card)
+		{
+			AlmostEmpty = new EmptyHandler(HandleEmpty);
+		}
+
         public Deck()
         {
-            for (int value = 1; value <= 13; value++)
+			AlmostEmpty = new EmptyHandler(HandleEmpty);
+			for (int value = 1; value <= 13; value++)
                 for (int suit = 1; suit <= 4; suit++)
                     cards.Add(new Card(value, suit));
         }
@@ -39,6 +48,7 @@ namespace CardClasses
             {
                 Card c = cards[0];
                 cards.RemoveAt(0);
+				AlmostEmpty(c);
                 return c;
             }
             return
