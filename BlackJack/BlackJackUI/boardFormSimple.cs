@@ -13,12 +13,10 @@ namespace BlackJack
     public partial class boardFormSimple : Form
     {
 		#region Instance Variables
-		Hand playerHand = new Hand();
-		Hand computerHand = new Hand();
+		BJHand playerHand;
+		BJHand computerHand;
 		Card c = new Card();
 		Deck d = new Deck();
-		bool playerTurn = false;
-		bool computerTurn = false;
         #endregion
 
         public boardFormSimple()
@@ -40,6 +38,50 @@ namespace BlackJack
         }
 		#endregion
 
+		private PictureBox GetPictureBox(int i)
+		{
+			PictureBox pB = (PictureBox)this.Controls["card" + i];
+			return pB;
+		}
+
+		public void DealHand(BJHand currentHand, bool player, bool reveal)
+		{
+			int pBIndex;
+			if (player)
+				pBIndex = 1;
+			else
+				pBIndex = 16;
+
+			if (reveal)
+			{
+				for (int i = 0; i < 5; i++)
+				{
+					PictureBox pB = GetPictureBox(i + pBIndex);
+					if (i < playerHand.NumCards)
+					{
+						Show(pB, currentHand.GetCard(i));
+						pB.Show();
+					}
+					else
+						pB.Hide();
+				}
+			}
+			else
+			{
+				for (int i = 0; i < 5; i++)
+				{
+					PictureBox pB = GetPictureBox(i + pBIndex);
+					if (i < playerHand.NumCards)
+					{
+						ShowBack(pB, currentHand.GetCard(i));
+						pB.Show();
+					}
+					else
+						pB.Hide();
+				}
+			}
+		}
+/*
 		public void DisableCardVisibility()
 		{
 			card1.Visible = false;
@@ -53,58 +95,60 @@ namespace BlackJack
 			card19.Visible = false;
 			card20.Visible = false;
 		}
-
+*/
         private void frmBoard_Load(object sender, EventArgs e)
         {
-			DisableCardVisibility();
+			d.Shuffle();
+			//DisableCardVisibility();
             hitButton.Enabled = true;
             standButton.Enabled = true;
             playerWinLabel.Visible = false;
             dealerWinLabel.Visible = false;
-            playAgainButton.Enabled = true;
-        }
+            playAgainButton.Enabled = false;
+
+			playerHand = new BJHand(d, 2);
+			computerHand = new BJHand(d, 2);
+
+			DealHand(computerHand, false, false);
+			DealHand(playerHand, true, true);
+		}
 
         private void hitButton_Click(object sender, EventArgs e)
         {
-			d.Shuffle();
+			playerHand.AddCard(d.Deal());
+			DealHand(playerHand, true, true);
 
-			Card c1 = d.Deal();
-			Card c2 = d.Deal();
-			Card c3 = d.Deal();
-			Card c4 = d.Deal();
-			Card c5 = d.Deal();
-
-			
-			playerHand.AddCard(c1);
-			Show(card16, c1);
-			card16.Visible = true;
-
+			if (playerHand.IsBusted)
+			{
+				dealerWinLabel.Show();
+				hitButton.Enabled = false;
+				standButton.Enabled = false;
+				playerWinLabel.Visible = true;
+			}
         }
 
         private void standButton_Click(object sender, EventArgs e)
         {
-			d.Shuffle();
+			computerHand.AddCard(d.Deal());
+			DealHand(computerHand, false, true);
 
-			Card c1 = d.Deal();
-			Card c2 = d.Deal();
-			Card c3 = d.Deal();
-			Card c4 = d.Deal();
-			Card c5 = d.Deal();
-
-
-			computerHand.AddCard(c1);
-			Show(card1, c1);
-			card1.Visible = true;
+			if (computerHand.IsBusted)
+			{
+				playerWinLabel.Show();
+				hitButton.Enabled = false;
+				standButton.Enabled = false;
+				dealerWinLabel.Enabled = true;
+			}
 		}
 
         private void playAgainButton_Click(object sender, EventArgs e)
         {
-			DisableCardVisibility();
+			//DisableCardVisibility();
 			hitButton.Enabled = true;
 			standButton.Enabled = true;
 			playerWinLabel.Visible = false;
 			dealerWinLabel.Visible = false;
-			playAgainButton.Enabled = true; 
+			playAgainButton.Enabled = false; 
 		}
     }
 }
