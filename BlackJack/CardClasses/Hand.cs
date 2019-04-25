@@ -29,7 +29,12 @@ namespace CardClasses
         {
 			cards.Add(c);
         }
-
+/*
+		public void DealCard(Card c)
+		{
+			cards.Remove(c);
+		}
+*/
         public Card GetCard(int index)
         {
 			return cards[index];

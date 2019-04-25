@@ -125,7 +125,7 @@ namespace CardClasses
                 return false;
         }
 
-        private string FileName
+        public string FileName
         {
             get
             {
