@@ -13,7 +13,7 @@ namespace CardClasses
         public Hand() { }
         public Hand(Deck d, int numCards)
         {
-			for (int i = 1; i <= numCards; i++)
+			for (int i = 0; i < numCards; i++)
 				cards.Add(d.Deal());
         }
 
@@ -29,12 +29,7 @@ namespace CardClasses
         {
 			cards.Add(c);
         }
-/*
-		public void DealCard(Card c)
-		{
-			cards.Remove(c);
-		}
-*/
+
         public Card GetCard(int index)
         {
 			return cards[index];

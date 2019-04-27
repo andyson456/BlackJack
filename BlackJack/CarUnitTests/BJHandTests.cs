@@ -13,7 +13,7 @@ namespace CardUnitTests
 	public class BJHandTests
 	{
 		Hand def;
-		Hand sixC;
+		BJHand sixC;
 		Deck defD;
 		Card aC;
 		Card qH;
@@ -27,7 +27,7 @@ namespace CardUnitTests
 		{
 			def = new Hand();
 			defD = new Deck();
-			sixC = new Hand(defD, 6);
+			sixC = new BJHand(defD, 6);
 			aC = new Card(1, 1);
 			qH = new Card(12, 3);
 			d2 = new Card(2, 2);
@@ -42,11 +42,12 @@ namespace CardUnitTests
 			Assert.AreEqual(5, BJDefD.NumCards);
 		}
 
+		// Something is wrong in the card class
+		// All cards that aren't an Ace are returning a value of 0
 		[Test]
 		public void TestingScore()
 		{
-			BJDef.AddCard(aC);
-			Assert.AreEqual(10, BJDef.Score);
+			Assert.AreEqual(16, sixC.Score);
 		}
 
 		[Test]
@@ -67,6 +68,14 @@ namespace CardUnitTests
 			BJDef.AddCard(qH);
 			BJDef.AddCard(d2);
 			Assert.IsFalse(BJDef.IsBusted);
+		}
+
+		[Test]
+		public void TestingCardValues()
+		{
+			Assert.AreEqual(12, qH.Value);
+			Assert.AreEqual(2, d2.Value);
+			Assert.AreNotEqual(4, d2.Value);
 		}
 	}
 }

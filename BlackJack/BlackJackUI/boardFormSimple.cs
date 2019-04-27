@@ -13,13 +13,12 @@ namespace BlackJack
     public partial class boardFormSimple : Form
     {
 		#region Instance Variables
-		BJHand playerHand;
-		BJHand computerHand;
-		Card c = new Card();
-		Deck d = new Deck();
-        #endregion
+		private Deck d;
+		private BJHand playerHand;
+		private BJHand dealerHand;
+		#endregion
 
-        public boardFormSimple()
+		public boardFormSimple()
         {
             InitializeComponent();
         }
@@ -44,111 +43,140 @@ namespace BlackJack
 			return pB;
 		}
 
-		public void DealHand(BJHand currentHand, bool player, bool reveal)
+		private void LoadPlayerHand(BJHand h)
 		{
-			int pBIndex;
-			if (player)
-				pBIndex = 1;
-			else
-				pBIndex = 16;
 
-			if (reveal)
+			for (int i = 0; i < 5; i++)
 			{
-				for (int i = 0; i < 5; i++)
+				PictureBox pb = GetPictureBox(i + 1);
+				if (i < h.NumCards)
 				{
-					PictureBox pB = GetPictureBox(i + pBIndex);
-					if (i < playerHand.NumCards)
-					{
-						Show(pB, currentHand.GetCard(i));
-						pB.Show();
-					}
-					else
-						pB.Hide();
+					Show(pb, h.GetCard(i));
+					pb.Visible = true;
 				}
-			}
-			else
-			{
-				for (int i = 0; i < 5; i++)
+				else
 				{
-					PictureBox pB = GetPictureBox(i + pBIndex);
-					if (i < playerHand.NumCards)
-					{
-						ShowBack(pB, currentHand.GetCard(i));
-						pB.Show();
-					}
-					else
-						pB.Hide();
+					pb.Hide();
 				}
 			}
 		}
-/*
-		public void DisableCardVisibility()
+
+		private void LoadDealerHand(BJHand h)
 		{
-			card1.Visible = false;
-			card2.Visible = false;
-			card3.Visible = false;
-			card4.Visible = false;
-			card5.Visible = false;
-			card16.Visible = false;
-			card17.Visible = false;
-			card18.Visible = false;
-			card19.Visible = false;
-			card20.Visible = false;
+
+			for (int i = 0; i < 5; i++)
+			{
+				PictureBox pb = GetPictureBox(i + 16);
+				if (i < h.NumCards)
+				{
+					Show(pb, h.GetCard(i));
+					pb.Visible = true;
+				}
+				else
+				{
+					pb.Hide();
+				}
+			}
 		}
-*/
-        private void frmBoard_Load(object sender, EventArgs e)
-        {
+
+		private void Setup()
+		{
+			//Created objects
+			d = new Deck();
 			d.Shuffle();
-			//DisableCardVisibility();
-            hitButton.Enabled = true;
-            standButton.Enabled = true;
-            playerWinLabel.Visible = false;
-            dealerWinLabel.Visible = false;
-            playAgainButton.Enabled = false;
-
 			playerHand = new BJHand(d, 2);
-			computerHand = new BJHand(d, 2);
+			dealerHand = new BJHand(d, 2);
 
-			DealHand(computerHand, false, false);
-			DealHand(playerHand, true, true);
+			//Add's cards to UI
+			LoadPlayerHand(playerHand);
+			LoadDealerHand(dealerHand);
+
+			//Showing what's visible
+			hitButton.Enabled = true;
+			standButton.Enabled = true;
+			playerWinLabel.Visible = false;
+			dealerWinLabel.Visible = false;
+			playAgainButton.Enabled = false;
+		}
+		/*
+				public void DisableCardVisibility()
+				{
+					card1.Visible = false;
+					card2.Visible = false;
+					card3.Visible = false;
+					card4.Visible = false;
+					card5.Visible = false;
+					card16.Visible = false;
+					card17.Visible = false;
+					card18.Visible = false;
+					card19.Visible = false;
+					card20.Visible = false;
+				}
+		*/
+		private void frmBoard_Load(object sender, EventArgs e)
+        {
+			Setup();
 		}
 
         private void hitButton_Click(object sender, EventArgs e)
         {
+			//Add's card to players hand
 			playerHand.AddCard(d.Deal());
-			DealHand(playerHand, true, true);
+			LoadPlayerHand(playerHand);
 
+			//if over 21, Change board and displays message
 			if (playerHand.IsBusted)
 			{
-				dealerWinLabel.Show();
 				hitButton.Enabled = false;
 				standButton.Enabled = false;
-				playerWinLabel.Visible = true;
+				playAgainButton.Enabled = true;
+				dealerWinLabel.Visible = true;
+				if (MessageBox.Show("Press OK to Play Again", "You LOST!", MessageBoxButtons.OKCancel) == DialogResult.OK)
+				{
+					Setup();
+				}
 			}
-        }
-
-        private void standButton_Click(object sender, EventArgs e)
-        {
-			computerHand.AddCard(d.Deal());
-			DealHand(computerHand, false, true);
-
-			if (computerHand.IsBusted)
+			else
 			{
-				playerWinLabel.Show();
+				MessageBox.Show("Next Move");
+			}
+		}
+
+		private void standButton_Click(object sender, EventArgs e)
+		{
+			//if score is < 17
+			if (dealerHand.Score < 17)
+			{
+				//Draw until score is <= 17
+				while (dealerHand.Score <= 17)
+				{
+					dealerHand.AddCard(d.Deal());
+					LoadDealerHand(dealerHand);
+				}
+			}
+			else if (dealerHand.Score == 21)
+			{
+				//If dealer score IS 21, winning condition
 				hitButton.Enabled = false;
 				standButton.Enabled = false;
-				dealerWinLabel.Enabled = true;
+				playAgainButton.Enabled = true;
+				dealerWinLabel.Visible = true;
+				if (MessageBox.Show("Press OK to Play Again", "Dealer had 21!", MessageBoxButtons.OKCancel) == DialogResult.OK)
+				{
+					Setup();
+				}
+			}
+			else
+			{
+				//Else just Draw ONE CARD
+				dealerHand.AddCard(d.Deal());
+				LoadDealerHand(dealerHand);
 			}
 		}
 
         private void playAgainButton_Click(object sender, EventArgs e)
         {
-			//DisableCardVisibility();
-			hitButton.Enabled = true;
-			standButton.Enabled = true;
-			playerWinLabel.Visible = false;
-			dealerWinLabel.Visible = false;
-			playAgainButton.Enabled = false; 
+			Setup();
 		}
     }
 }

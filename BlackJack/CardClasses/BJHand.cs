@@ -34,15 +34,18 @@ namespace CardClasses
             {
 				int score = 0;
 				foreach (Card card in cards)
+				{
 					if (card.IsFaceCard())
+					{
 						score += 10;
+					}
 					else
 						score += card.Value;
+				}
 				if (HasAce && score <= 11)
 					score += 10;
 
 				return score;
-
             }
         }
 
