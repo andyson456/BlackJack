@@ -8,12 +8,9 @@ namespace CardClasses
 {
     public class BJHand : Hand
     {
-
-		protected new List<Card> cards = new List<Card>();
-
 		public BJHand() : base() { }
 
-        public BJHand(Deck d, int numCards) : base(d, numCards)
+        public BJHand(Deck d, int numCards)
         {
 			for (int i = 1; i <= numCards; i++)
 				cards.Add(d.Deal());

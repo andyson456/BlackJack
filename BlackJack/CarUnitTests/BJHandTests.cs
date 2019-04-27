@@ -47,7 +47,7 @@ namespace CardUnitTests
 		[Test]
 		public void TestingScore()
 		{
-			Assert.AreEqual(16, sixC.Score);
+			Assert.AreEqual(24, sixC.Score);
 		}
 
 		[Test]
