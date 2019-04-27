@@ -11,11 +11,11 @@ namespace CardClasses
 		protected List<Card> cards = new List<Card>();
 
         public Hand() { }
-        /*public Hand(Deck d, int numCards)
+        public Hand(Deck d, int numCards)
         {
 			for (int i = 0; i < numCards; i++)
 				cards.Add(d.Deal());
-        }*/
+        }
 
         public int NumCards
         {

@@ -43,7 +43,7 @@ namespace BlackJack
 			return pB;
 		}
 
-		private void LoadPlayerHand(BJHand h)
+		private void PlayerTurn(BJHand h)
 		{
 
 			for (int i = 0; i < 5; i++)
@@ -61,7 +61,7 @@ namespace BlackJack
 			}
 		}
 
-		private void LoadDealerHand(BJHand h)
+		private void ComputerTurn(BJHand h)
 		{
 
 			for (int i = 0; i < 5; i++)
@@ -88,8 +88,8 @@ namespace BlackJack
 			dealerHand = new BJHand(d, 2);
 
 			//Add's cards to UI
-			LoadPlayerHand(playerHand);
-			LoadDealerHand(dealerHand);
+			PlayerTurn(playerHand);
+			ComputerTurn(dealerHand);
 
 			//Showing what's visible
 			hitButton.Enabled = true;
@@ -122,7 +122,7 @@ namespace BlackJack
         {
 			//Add's card to players hand
 			playerHand.AddCard(d.Deal());
-			LoadPlayerHand(playerHand);
+			PlayerTurn(playerHand);
 
 			//if over 21, Change board and displays message
 			if (playerHand.IsBusted)
@@ -131,7 +131,7 @@ namespace BlackJack
 				standButton.Enabled = false;
 				playAgainButton.Enabled = true;
 				dealerWinLabel.Visible = true;
-				if (MessageBox.Show("Press OK to Play Again", "You LOST!", MessageBoxButtons.OKCancel) == DialogResult.OK)
+				if (MessageBox.Show("Press OK to Play Again", "You lost!", MessageBoxButtons.OKCancel) == DialogResult.OK)
 				{
 					Setup();
 				}
@@ -151,16 +151,16 @@ namespace BlackJack
 				while (dealerHand.Score <= 17)
 				{
 					dealerHand.AddCard(d.Deal());
-					LoadDealerHand(dealerHand);
+					ComputerTurn(dealerHand);
 				}
 			}
-			else if (dealerHand.Score == 21)
+			else if (dealerHand.IsBusted)
 			{
 				//If dealer score IS 21, winning condition
 				hitButton.Enabled = false;
 				standButton.Enabled = false;
 				playAgainButton.Enabled = true;
-				dealerWinLabel.Visible = true;
+				playerWinLabel.Visible = true;
 				if (MessageBox.Show("Press OK to Play Again", "Dealer had 21!", MessageBoxButtons.OKCancel) == DialogResult.OK)
 				{
 					Setup();
@@ -170,7 +170,7 @@ namespace BlackJack
 			{
 				//Else just Draw ONE CARD
 				dealerHand.AddCard(d.Deal());
-				LoadDealerHand(dealerHand);
+				ComputerTurn(dealerHand);
 			}
 		}
 

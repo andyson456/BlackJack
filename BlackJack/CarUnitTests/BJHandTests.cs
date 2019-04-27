@@ -47,7 +47,8 @@ namespace CardUnitTests
 		[Test]
 		public void TestingScore()
 		{
-			Assert.AreEqual(24, sixC.Score);
+			Assert.AreEqual(18, sixC.Score);
+			Assert.AreEqual(13, BJDefD.Score);
 		}
 
 		[Test]
@@ -64,10 +65,9 @@ namespace CardUnitTests
 		[Test]
 		public void TestingIsBusted()
 		{
-			BJDef.AddCard(aC);
-			BJDef.AddCard(qH);
-			BJDef.AddCard(d2);
-			Assert.IsFalse(BJDef.IsBusted);
+			Deck d = new Deck();
+			BJHand newHand = new BJHand(d, 15);
+			Assert.IsTrue(newHand.IsBusted);
 		}
 
 		[Test]
