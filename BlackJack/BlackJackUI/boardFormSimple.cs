@@ -181,6 +181,8 @@ namespace BlackJack
 
 		private void button1_Click(object sender, EventArgs e)
 		{
+			FunnyPicform pic = new FunnyPicform();
+			pic.ShowDialog();
 			this.Close();
 		}
 	}

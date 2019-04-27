@@ -56,9 +56,18 @@
       <DependentUpon>boardFormSimple.cs</DependentUpon>
     </Compile>
     <Compile Include="BlackJack.cs" />
+    <Compile Include="FunnyPicform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FunnyPicform.Designer.cs">
+      <DependentUpon>FunnyPicform.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="boardFormSimple.resx">
       <DependentUpon>boardFormSimple.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FunnyPicform.resx">
+      <DependentUpon>FunnyPicform.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

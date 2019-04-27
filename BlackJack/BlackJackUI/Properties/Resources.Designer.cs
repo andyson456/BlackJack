@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Concentration.Properties {
+namespace BlackJack.Properties {
     using System;
     
     
